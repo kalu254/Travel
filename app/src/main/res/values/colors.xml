@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="auth_status_color">#C1E8FF</color>
     <color name="main_status_color">#40000000</color>
+    <color name="inactive_bottom_nav_icon">#40C4C4C4</color>
 </resources>

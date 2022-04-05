@@ -18,7 +18,6 @@ class CountryAdapter(
 
 
     override fun getCount(): Int {
-        Log.d("************************",countries.size.toString())
 
         return countries.size
     }
@@ -34,9 +33,8 @@ class CountryAdapter(
         val tvCountry = view.findViewById<TextView>(R.id.tv_country)
         tvCountry.text = countries[position].name
 
-        Log.d("",countries[position].name)
 
-container.addView(view,0)
+        container.addView(view, 0)
         return view;
     }
 
@@ -44,4 +42,6 @@ container.addView(view,0)
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
         container.removeView(container)
     }
+
+
 }

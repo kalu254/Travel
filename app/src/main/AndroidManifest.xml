@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.luka.travel">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,14 +15,13 @@
         <activity
             android:name=".ui.auth.AuthActivity"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
             >
 
         </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:theme="@style/Theme.MaterialComponents.NoActionBar"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

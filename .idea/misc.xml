@@ -8,12 +8,17 @@
         <entry key="app/src/main/res/drawable/et_style.xml" value="0.2185" />
         <entry key="app/src/main/res/drawable/ic_baseline_account_box_24.xml" value="0.2185" />
         <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.2185" />
+        <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.1745" />
+        <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.1745" />
         <entry key="app/src/main/res/drawable/inactive_dot.xml" value="0.1845" />
         <entry key="app/src/main/res/drawable/login_register_button_background.xml" value="0.2185" />
         <entry key="app/src/main/res/drawable/shadow_auth.xml" value="0.1425" />
+        <entry key="app/src/main/res/font/.xml" value="0.2635416666666667" />
+        <entry key="app/src/main/res/font/roboto_slab_bold.xml" value="0.2635416666666667" />
         <entry key="app/src/main/res/layout/activity_auth.xml" value="0.22544642857142858" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.23333333333333334" />
+        <entry key="app/src/main/res/layout/country_details_fragment.xml" value="0.3493635077793494" />
         <entry key="app/src/main/res/layout/custom_login_form_dialog.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.23333333333333334" />
@@ -22,6 +27,8 @@
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/fragment_splash2.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/item_country.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/item_place_to_visit.xml" value="0.23333333333333334" />
+        <entry key="app/src/main/res/layout/item_user_profile_image.xml" value="1.0361842105263157" />
         <entry key="app/src/main/res/layout/login_fragment.xml" value="0.25" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.15729166666666666" />
       </map>

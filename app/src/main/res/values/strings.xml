@@ -7,4 +7,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="continue_with_facebook">Continue with Facebook</string>
     <string name="log_in">Log In</string>
+    <string name="destination_desc">Kenya, the Africa’s country in East Africa,\nis a land of mountain wildernesses such as\nthe Cairngorms and Northwest Highlands,\ninterspersed with glacial glens (valleys)\nand lochs (lakes).</string>
+    <string name="dummy_liked_users">Janet, Maria, Anna</string>
+    <string name="dummy_and_a_number_others">and 15 people like this</string>
 </resources>
