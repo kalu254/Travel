@@ -3,24 +3,25 @@ package com.luka.travel.ui.country_details
 import DestinationsAdapter
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ListView
 import androidx.activity.OnBackPressedCallback
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.luka.travel.R
 import com.luka.travel.databinding.CountryDetailsFragmentBinding
 import com.luka.travel.ui.adapters.ProfileImagesAdapter
-import com.luka.travel.ui.home.HomeFragment
 import com.luka.travel.utils.DummyDestinationData
 import com.luka.travel.utils.MarginItemDecoration
 import com.luka.travel.utils.OverlapDecoration
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class CountryDetailsFragment : Fragment() {
 
@@ -50,8 +51,7 @@ class CountryDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[CountryDetailsViewModel::class.java]
-
+        setupViewModel()
         binding.linearLayoutBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
@@ -59,7 +59,23 @@ class CountryDetailsFragment : Fragment() {
         setUpLikedUsers()
         setUpPlacesToVisit()
 
+//        lifecycleScope.launch {
+//            viewModel.listData.collect {
+//                it.map {
+//                    Timber.d("###########++++++++++++++++++++, ${it.first_name + " " + it.last_name}")
+//                }
+//            }
+//        }
     }
+
+
+    private fun setupViewModel() {
+        viewModel =
+            ViewModelProvider(
+                this,
+            )[CountryDetailsViewModel::class.java]
+    }
+
 
     private fun setUpPlacesToVisit() {
         destinationsList.adapter =
@@ -67,6 +83,8 @@ class CountryDetailsFragment : Fragment() {
         destinationsList.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         destinationsList.addItemDecoration(MarginItemDecoration(8))
+
+
     }
 
     private fun backPressCustomImplimentation() {

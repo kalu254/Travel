@@ -10,8 +10,10 @@ import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.paging.map
 import androidx.viewpager.widget.ViewPager
 import com.luka.travel.R
 import com.luka.travel.databinding.FragmentHomeBinding
@@ -19,8 +21,14 @@ import com.luka.travel.model.CountryInfo
 import com.luka.travel.model.CountryResponse
 import com.luka.travel.model.Metadata
 import com.luka.travel.ui.adapters.CountryAdapter
+import com.luka.travel.ui.dashboard.DashboardViewModel
 import com.luka.travel.utils.DummyDestinationData
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
@@ -31,17 +39,16 @@ class HomeFragment : Fragment() {
     private lateinit var viewPager: ViewPager
     var sliderDotspanel: LinearLayout? = null
     private var dotscount = 0
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+
+    private lateinit var homeViewModel: HomeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
+        homeViewModel =
             ViewModelProvider(this).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -67,6 +74,29 @@ class HomeFragment : Fragment() {
     }
 
     private fun viewPagerSetUp() {
+
+        lifecycleScope.launch {
+            homeViewModel.getLocationStupidly()
+            homeViewModel.lRes.observe(viewLifecycleOwner) {
+                it.results.forEach {
+                    println("###################### ${it.name + " " + it.url}")
+
+                }
+            }
+//
+//            homeViewModel.getLocation().observe(viewLifecycleOwner){
+//                it.map {
+//                    println("###################### ${it.name + " " + it.url}")
+//                }
+//            }
+
+
+            homeViewModel.getSearchResults().observe(viewLifecycleOwner) {
+                it.map {
+                }
+            }
+        }
+
         viewPager = binding.viewPagerCountries
         sliderDotspanel = binding.sliderDots
 
@@ -105,11 +135,6 @@ class HomeFragment : Fragment() {
         viewPager.clipToPadding = false;
         viewPager.setPadding(100, 0, 100, 0)
         viewPager.pageMargin = 20;
-
-
-
-
-
 
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
