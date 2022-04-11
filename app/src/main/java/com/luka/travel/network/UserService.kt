@@ -15,14 +15,12 @@ interface UserService {
 
     companion object {
 
-        private val moshi = Moshi.Builder()
-            .add(MoshiConverterFactory.create())
-            .build()
 
-        fun getApiService() = Retrofit.Builder()
+        fun getApiService(): UserService = Retrofit.Builder()
             .baseUrl("https://reqres.in/")
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addConverterFactory(MoshiConverterFactory.create())
             .build()
             .create(UserService::class.java)
     }
+
 }

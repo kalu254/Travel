@@ -17,14 +17,12 @@ import androidx.paging.map
 import androidx.viewpager.widget.ViewPager
 import com.luka.travel.R
 import com.luka.travel.databinding.FragmentHomeBinding
-import com.luka.travel.model.CountryInfo
-import com.luka.travel.model.CountryResponse
-import com.luka.travel.model.Metadata
+import com.luka.travel.model.DestinationPhoto
 import com.luka.travel.ui.adapters.CountryAdapter
 import com.luka.travel.ui.dashboard.DashboardViewModel
-import com.luka.travel.utils.DummyDestinationData
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -35,7 +33,7 @@ class HomeFragment : Fragment() {
 
 
     private lateinit var adapter: CountryAdapter
-    private lateinit var models: List<CountryInfo>
+    private lateinit var models: List<DestinationPhoto>
     private lateinit var viewPager: ViewPager
     var sliderDotspanel: LinearLayout? = null
     private var dotscount = 0
@@ -65,44 +63,33 @@ class HomeFragment : Fragment() {
         viewPagerSetUp()
     }
 
-    override fun onResume() {
-        super.onResume()
-        binding.tvExplore.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_countryDetails)
-        }
-
-    }
 
     private fun viewPagerSetUp() {
 
         lifecycleScope.launch {
-            homeViewModel.getLocationStupidly()
-            homeViewModel.lRes.observe(viewLifecycleOwner) {
-                it.results.forEach {
-                    println("###################### ${it.name + " " + it.url}")
-
-                }
-            }
-//
-//            homeViewModel.getLocation().observe(viewLifecycleOwner){
-//                it.map {
-//                    println("###################### ${it.name + " " + it.url}")
-//                }
-//            }
 
 
-            homeViewModel.getSearchResults().observe(viewLifecycleOwner) {
+            homeViewModel.getDestination().collectLatest {
+
+                val destinationPhotos = mutableListOf<DestinationPhoto>()
+
                 it.map {
+                    Log.d(
+                        "receiving locations", it.description!!
+                    )
+
+                    destinationPhotos.add(it)
                 }
+
+                adapter = CountryAdapter(destinationPhotos, requireContext())
+
             }
         }
 
         viewPager = binding.viewPagerCountries
         sliderDotspanel = binding.sliderDots
 
-        val countryData = DummyDestinationData.dummyCountryResponse.dataInfo
 
-        adapter = CountryAdapter(countryData, requireContext())
         viewPager.adapter = adapter
 
 

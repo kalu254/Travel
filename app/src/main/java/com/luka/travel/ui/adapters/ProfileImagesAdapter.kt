@@ -1,16 +1,22 @@
 package com.luka.travel.ui.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.paging.PagingData
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.PagerAdapter
 import coil.Coil
 import coil.load
 import com.luka.travel.databinding.ItemUserProfileImageBinding
+import com.luka.travel.model.Data
 
-class ProfileImagesAdapter(private val userImages: ArrayList<Int>) :
-    RecyclerView.Adapter<ProfileImagesAdapter.ProfileImageViewHolder>() {
+class ProfileImagesAdapter :
+    PagingDataAdapter<Data, ProfileImagesAdapter.ProfileImageViewHolder>(DiffCallback) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProfileImageViewHolder {
@@ -22,27 +28,31 @@ class ProfileImagesAdapter(private val userImages: ArrayList<Int>) :
 
     override fun onBindViewHolder(holder: ProfileImageViewHolder, position: Int) {
 
-        val item = userImages[position]
-        if (item != null) {
-            holder.bind(item)
-        }
+        getItem(position)?.let { holder.bind(it) }
     }
-
-    override fun getItemCount(): Int {
-
-        return userImages.size
-    }
-
 
     class ProfileImageViewHolder(private val itemUserProfileImageBinding: ItemUserProfileImageBinding) :
         RecyclerView.ViewHolder(itemUserProfileImageBinding.root) {
 
-        fun bind(item: Int) {
+        fun bind(item: Data) {
 //            itemUserProfileImageBinding.profileImage
 //            Coil.load(item)
 
-            itemUserProfileImageBinding.profileImage.load(item)
+            Log.d("*******************",item.avatar)
+
+            itemUserProfileImageBinding.profileImage.load(item.avatar)
         }
 
+    }
+
+
+    object DiffCallback : DiffUtil.ItemCallback<Data>() {
+        override fun areItemsTheSame(oldItem: Data, newItem: Data): Boolean {
+            return oldItem == newItem
+        }
+
+        override fun areContentsTheSame(oldItem: Data, newItem: Data): Boolean {
+            return oldItem == newItem
+        }
     }
 }

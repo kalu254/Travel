@@ -3,6 +3,7 @@ package com.luka.travel.ui.country_details
 import DestinationsAdapter
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,11 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.luka.travel.R
 import com.luka.travel.databinding.CountryDetailsFragmentBinding
+import com.luka.travel.network.UserService
 import com.luka.travel.ui.adapters.ProfileImagesAdapter
-import com.luka.travel.utils.DummyDestinationData
 import com.luka.travel.utils.MarginItemDecoration
 import com.luka.travel.utils.OverlapDecoration
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -27,7 +27,9 @@ class CountryDetailsFragment : Fragment() {
 
     companion object {
         fun newInstance() = CountryDetailsFragment()
+        val TAG = "***************CountryDetailsFragment******************"
     }
+
 
     private lateinit var viewModel: CountryDetailsViewModel
     private lateinit var binding: CountryDetailsFragmentBinding
@@ -52,20 +54,13 @@ class CountryDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
-        binding.linearLayoutBack.setOnClickListener {
+        binding.imgBackArrow.setOnClickListener {
             requireActivity().onBackPressed()
         }
         backPressCustomImplimentation()
         setUpLikedUsers()
         setUpPlacesToVisit()
 
-//        lifecycleScope.launch {
-//            viewModel.listData.collect {
-//                it.map {
-//                    Timber.d("###########++++++++++++++++++++, ${it.first_name + " " + it.last_name}")
-//                }
-//            }
-//        }
     }
 
 
@@ -73,13 +68,14 @@ class CountryDetailsFragment : Fragment() {
         viewModel =
             ViewModelProvider(
                 this,
+                CountryDetailsViewModelFactory(UserService.getApiService())
             )[CountryDetailsViewModel::class.java]
     }
 
 
     private fun setUpPlacesToVisit() {
-        destinationsList.adapter =
-            DestinationsAdapter(DummyDestinationData.dummyCountryResponse.dataInfo)
+//        destinationsList.adapter =
+//            DestinationsAdapter(DummyDestinationData.dummyCountryResponse.dataInfo)
         destinationsList.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         destinationsList.addItemDecoration(MarginItemDecoration(8))
@@ -106,16 +102,29 @@ class CountryDetailsFragment : Fragment() {
     }
 
     private fun setUpLikedUsers() {
-        val userImages = arrayListOf(
-            R.drawable.user_1,
-            R.drawable.user_2,
-            R.drawable.user_3,
-        )
+//        val userImages = arrayListOf(
+//            R.drawable.user_1,
+//            R.drawable.user_2,
+//            R.drawable.user_3,
+//        )
+        val profilePicturesAdapter = ProfileImagesAdapter()
+            viewModel.listData().observe(viewLifecycleOwner) {
+                viewLifecycleOwner.lifecycleScope.launch {
+//                    it.map {
+//                        Log.d(TAG,it.avatar)
+//
+//                    }
+                    profilePicturesAdapter.submitData(it)
+                }
+            }
+            likedUserProfileImagesList.apply {
+                layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                addItemDecoration(OverlapDecoration())
+                adapter = profilePicturesAdapter
+            }
 
-        likedUserProfileImagesList.adapter = ProfileImagesAdapter(userImages)
-        likedUserProfileImagesList.addItemDecoration(OverlapDecoration())
-        likedUserProfileImagesList.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
     }
 
 }

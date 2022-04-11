@@ -1,7 +1,6 @@
 package com.luka.travel.di
 
-import com.luka.travel.network.HttpRequestInterceptor
-import com.luka.travel.network.PokedexService
+import com.luka.travel.network.DestinationService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,15 +36,15 @@ object NetworkModule {
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
-            .baseUrl("https://pokeapi.co/api/v2/")
+            .baseUrl(DestinationService.BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
     }
 
     @Provides
     @Singleton
-    fun providePokedexService(retrofit: Retrofit): PokedexService {
-        return retrofit.create(PokedexService::class.java)
+    fun providePokedexService(retrofit: Retrofit): DestinationService {
+        return retrofit.create(DestinationService::class.java)
     }
 
 }

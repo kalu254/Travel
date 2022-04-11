@@ -22,7 +22,7 @@ class UserPagerSource(private val userService: UserService) : PagingSource<Int, 
             responseData.addAll(data)
 
             val prevKey = if (currentLoadingPageKey == 1) null else currentLoadingPageKey - 1
-println("###############################################")
+            println("*****************************")
             return LoadResult.Page(
                 data = responseData,
                 prevKey = prevKey,

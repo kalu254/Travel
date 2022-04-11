@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.luka.travel.R
 import com.luka.travel.databinding.ItemPlaceToVisitBinding
-import com.luka.travel.model.CountryInfo
+import com.luka.travel.model.DestinationPhoto
 
-class DestinationsAdapter(private val placesToVisit: List<CountryInfo>) :
-    ListAdapter<CountryInfo, DestinationsAdapter.SliderViewHolder>(DiffCallback()) {
+class DestinationsAdapter(private val placesToVisit: List<DestinationPhoto>) :
+    ListAdapter<DestinationPhoto, DestinationsAdapter.SliderViewHolder>(DiffCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SliderViewHolder {
@@ -33,19 +33,19 @@ class DestinationsAdapter(private val placesToVisit: List<CountryInfo>) :
     class SliderViewHolder(private val itemPlaceToVisitBinding: ItemPlaceToVisitBinding) :
         RecyclerView.ViewHolder(itemPlaceToVisitBinding.root) {
 
-        fun bind(item: CountryInfo) {
+        fun bind(item: DestinationPhoto) {
 
             itemPlaceToVisitBinding.imageSlide.load(R.drawable.user_4)
         }
 
     }
 
-    private class DiffCallback : DiffUtil.ItemCallback<CountryInfo>() {
-        override fun areItemsTheSame(oldItem: CountryInfo, newItem: CountryInfo): Boolean {
-            return oldItem == newItem
+    private class DiffCallback : DiffUtil.ItemCallback<DestinationPhoto>() {
+        override fun areItemsTheSame(oldItem: DestinationPhoto, newItem: DestinationPhoto): Boolean {
+            return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: CountryInfo, newItem: CountryInfo): Boolean {
+        override fun areContentsTheSame(oldItem: DestinationPhoto, newItem: DestinationPhoto): Boolean {
             return oldItem == newItem
         }
     }
